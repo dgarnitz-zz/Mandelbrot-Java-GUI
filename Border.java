@@ -9,12 +9,9 @@ public class Border extends JFrame{
         Container cp = getContentPane();
         cp.setLayout(new BorderLayout());
         cp.add(new JButton("Button North"), BorderLayout.NORTH);
-        cp.add(new JButton("Button South"), BorderLayout.SOUTH);
-        cp.add(new JButton("Button East"), BorderLayout.EAST);
-        cp.add(new JButton("Button West"), BorderLayout.WEST);
         cp.add(new JButton("Button Center"), BorderLayout.CENTER);
         cp.add(new Panel(), BorderLayout.CENTER);
-        setSize(500,500);
+        setSize(700,700);
         setVisible (true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }

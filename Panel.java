@@ -5,10 +5,14 @@ public class Panel extends JPanel {
 
     @Override
     public void paint (Graphics g) {
-        g.drawLine (0, 0, 75, 75);
+        //g.drawLine (0, 0, 75, 75);
+        getMandelbrot(g, 550, 550);
 
-        int x = 20;
-        int y= 25;
+    }
+
+	public void getMandelbrot(Graphics g, int A, int B){
+        int x = A;
+        int y = B;
 
         MandelbrotCalculator MC = new MandelbrotCalculator();
         int[][] MC_data = MC.calcMandelbrotSet(
@@ -26,15 +30,11 @@ public class Panel extends JPanel {
             String row = "";
             for(int j=0; j<x; j++){
                 row = row + MC_data[i][j] + " ";
+                if(MC_data[i][j] >= MandelbrotCalculator.INITIAL_MAX_ITERATIONS) {
+                    g.drawLine(j, i, j, i);
+                }
             }
-            System.out.println(row);
         }
 
-        //g.drawOval (10, 10, 20, 20);
-    }
-
-	/* public void getMandelbrot(){
-
-
-	} */
+	}
 }
