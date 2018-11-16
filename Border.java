@@ -1,25 +1,25 @@
 import java.awt.BorderLayout;
 import java.awt.Container;
-import javax.swing.JButton;
+
 import javax.swing.JFrame;
 
-public class Border extends JFrame{
-    public Border() {
+public class Border extends JFrame {
+    private Model model;
+
+    public Border(Model model) {
+        this.model = model;
         Container cp = getContentPane();
         cp.setLayout(new BorderLayout());
-        //cp.add(new JButton("Button North"), BorderLayout.NORTH);
-        cp.add(new Toolbar(), BorderLayout.NORTH);
-        cp.add(new MandelbrotPanel(), BorderLayout.CENTER);
+        cp.add(new Toolbar(model), BorderLayout.NORTH);
+
+        MandelbrotPanel MbP = new MandelbrotPanel();
+        cp.add(MbP, BorderLayout.CENTER);
+
         setSize(1000,1000);
         setVisible (true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    public static void main(String[] args){
-
-        Border ex = new Border();
-
-    }
 }
 
 /*

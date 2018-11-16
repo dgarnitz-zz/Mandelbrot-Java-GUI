@@ -1,7 +1,14 @@
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
-public class MandelbrotPanel extends JPanel {
+public class MandelbrotPanel extends JPanel  {
+
+    /*private Model model;
+
+    public MandelbrotPanel(Model model){
+        this.model = model;
+    }*/
+
 
     @Override
     public void paint (Graphics g) {
@@ -15,7 +22,7 @@ public class MandelbrotPanel extends JPanel {
         int x = Model.defaultX;
         int y = Model.defaultY;
 
-        int[][] MC_data = Model.defaultMB();
+        int[][] MC_data = Model.defaultMB(Model.MAX_ITERATIONS);
         for(int i=0; i<y; i++){
             String row = "";
             for(int j=0; j<x; j++){
