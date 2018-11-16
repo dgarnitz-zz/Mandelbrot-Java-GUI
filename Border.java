@@ -2,16 +2,15 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class Border extends JFrame{
     public Border() {
         Container cp = getContentPane();
         cp.setLayout(new BorderLayout());
-        cp.add(new JButton("Button North"), BorderLayout.NORTH);
-        cp.add(new JButton("Button Center"), BorderLayout.CENTER);
-        cp.add(new Panel(), BorderLayout.CENTER);
-        setSize(700,700);
+        //cp.add(new JButton("Button North"), BorderLayout.NORTH);
+        cp.add(new Toolbar(), BorderLayout.NORTH);
+        cp.add(new MandelbrotPanel(), BorderLayout.CENTER);
+        setSize(1000,1000);
         setVisible (true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
@@ -53,6 +52,6 @@ up at (-.002, 0.00075) you have a zoom in of 1000
 Super imposing -
 
 For basic saving and loading, all you are doing is saving the PARAMETER settings using object serialization. A slightly more complicated
-extension would be to actually save the JPEG. 
+extension would be to actually save the JPEG.
 
  */
