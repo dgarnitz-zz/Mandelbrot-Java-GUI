@@ -1,23 +1,39 @@
+import model.Model;
+
 import java.awt.BorderLayout;
 import java.awt.Container;
+import javax.swing.SwingUtilities;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JFrame;
 
-public class Border extends JFrame {
+public class Border extends JFrame implements PropertyChangeListener {
     private Model model;
+    public MandelbrotPanel MbP = new MandelbrotPanel();
 
     public Border(Model model) {
         this.model = model;
+        model.addObserver(this);
         Container cp = getContentPane();
         cp.setLayout(new BorderLayout());
         cp.add(new Toolbar(model), BorderLayout.NORTH);
-
-        MandelbrotPanel MbP = new MandelbrotPanel();
         cp.add(MbP, BorderLayout.CENTER);
 
         setSize(1000,1000);
         setVisible (true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        System.out.println("The propertyChange function has been called");
+        SwingUtilities.invokeLater(new Runnable(){
+            public void run(){
+                MbP.repaint();
+                System.out.println("The repaint function has been called");
+            }
+        });
     }
 
 }

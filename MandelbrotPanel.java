@@ -1,38 +1,33 @@
+import model.MandelbrotCalculator;
+import model.Model;
+
 import java.awt.Graphics;
-import javax.swing.JPanel;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import javax.swing.*;
 
-public class MandelbrotPanel extends JPanel  {
-
-    /*private Model model;
-
-    public MandelbrotPanel(Model model){
-        this.model = model;
-    }*/
-
+public class MandelbrotPanel extends JPanel {
 
     @Override
     public void paint (Graphics g) {
-        //g.drawLine (0, 0, 75, 75);
-        renderDefaultMandelbrot(g);
+        renderMandelbrot(g);
 
     }
 
-	public void renderDefaultMandelbrot(Graphics g){
+	public void renderMandelbrot(Graphics g){
+        System.out.println("rendering mandelbrot");
 
         int x = Model.defaultX;
         int y = Model.defaultY;
 
-        int[][] MC_data = Model.defaultMB(Model.MAX_ITERATIONS);
+        int[][] MC_data = Model.createMB();
         for(int i=0; i<y; i++){
-            String row = "";
             for(int j=0; j<x; j++){
-                row = row + MC_data[i][j] + " ";
-                if(MC_data[i][j] >= MandelbrotCalculator.INITIAL_MAX_ITERATIONS) {
+                if(MC_data[i][j] >= Model.MAX_ITERATIONS) {
                     g.drawLine(j, i, j, i);
+                    //System.out.println("creating MB with max IT of: " + Model.MAX_ITERATIONS); --> this outputted the correct values but it still didnt re-render
                 }
             }
         }
 	}
-
-	//NEED another method for rendering a configured Mandelbrot
 }

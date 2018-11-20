@@ -1,4 +1,4 @@
-/*
+package model;/*
 Copyright (c) 2018, Dr. Jon Lewis <jon.lewis@st-andrews.ac.uk>
 All rights reserved.
 
@@ -28,15 +28,15 @@ either expressed or implied, of the FreeBSD Project.
 */
 
 /**
- * The MandelbrotCalculator class contains methods which establish the Mandelbrot set.
+ * The model.MandelbrotCalculator class contains methods which establish the Mandelbrot set.
  * The calcMandelbrotSet method below iterates over X,Y positions and establishes for specified parameter values a 2-D array containing
  * for each [y][x] pixel an iteration value that may be mapped to colour and used to visualise the Mandelbrot set.
  * The calcMandelbrotSet method iteratively calls for each X,Y coordinate, the calcMandel method (also included here) which establishes the iteration value for a particular X,Y coordinate.
  *
  * Example usage -- To obtain a 800x800 2-D array of Mandelbrot set values for the initial parameter values
  *
- * MandelbrotCalculator mandelCalc = new MandelbrotCalculator();
- * int[][] madelbrotData = mandelCalc.calcMandelbrotSet(800, 800, MandelbrotCalculator.INITIAL_MIN_REAL, MandelbrotCalculator.INITIAL_MAX_REAL, MandelbrotCalculator.INITIAL_MIN_IMAGINARY, MandelbrotCalculator.INITIAL_MAX_IMAGINARY, MandelbrotCalculator.INITIAL_MAX_ITERATIONS, MandelbrotCalculator.DEFAULT_RADIUS_SQUARED);
+ * model.MandelbrotCalculator mandelCalc = new model.MandelbrotCalculator();
+ * int[][] madelbrotData = mandelCalc.calcMandelbrotSet(800, 800, model.MandelbrotCalculator.INITIAL_MIN_REAL, model.MandelbrotCalculator.INITIAL_MAX_REAL, model.MandelbrotCalculator.INITIAL_MIN_IMAGINARY, model.MandelbrotCalculator.INITIAL_MAX_IMAGINARY, model.MandelbrotCalculator.INITIAL_MAX_ITERATIONS, model.MandelbrotCalculator.DEFAULT_RADIUS_SQUARED);
  *
  * @author jon.lewis@st-andrews.ac.uk
  *
@@ -44,11 +44,11 @@ either expressed or implied, of the FreeBSD Project.
 public class MandelbrotCalculator {
 
     // Initial parameter values
-    protected static final double INITIAL_MIN_REAL = -2.0;
-    protected static final double INITIAL_MAX_REAL = 0.7;
-    protected static final double INITIAL_MIN_IMAGINARY = -1.25;
-    protected static final double INITIAL_MAX_IMAGINARY = 1.25;
-    protected static final int INITIAL_MAX_ITERATIONS = 50;
+    public static final double INITIAL_MIN_REAL = -2.0;
+    public static final double INITIAL_MAX_REAL = 0.7;
+    public static final double INITIAL_MIN_IMAGINARY = -1.25;
+    public static final double INITIAL_MAX_IMAGINARY = 1.25;
+    public static final int INITIAL_MAX_ITERATIONS = 50;
 
     // Default parameter values
     protected static final double DEFAULT_RADIUS_SQUARED = 4.0;

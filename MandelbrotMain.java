@@ -1,3 +1,5 @@
+import model.Model;
+
 public class MandelbrotMain {
 
     public static void main(String[] args){
