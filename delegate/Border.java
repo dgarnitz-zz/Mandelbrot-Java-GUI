@@ -1,3 +1,5 @@
+package delegate;
+
 import model.Model;
 
 import java.awt.BorderLayout;
@@ -11,14 +13,18 @@ import javax.swing.JFrame;
 public class Border extends JFrame implements PropertyChangeListener {
     private Model model;
     public MandelbrotPanel MbP = new MandelbrotPanel();
+    private Container cp;
+    public MouseListenerClass MLC;
 
     public Border(Model model) {
         this.model = model;
         model.addObserver(this);
-        Container cp = getContentPane();
+        cp = getContentPane();
         cp.setLayout(new BorderLayout());
         cp.add(new Toolbar(model), BorderLayout.NORTH);
         cp.add(MbP, BorderLayout.CENTER);
+        //MLC = new MouseListenerClass(this.model, MbP);
+
 
         setSize(1000,1000);
         setVisible (true);
@@ -28,12 +34,18 @@ public class Border extends JFrame implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         System.out.println("The propertyChange function has been called");
-        SwingUtilities.invokeLater(new Runnable(){
-            public void run(){
-                MbP.repaint();
-                System.out.println("The repaint function has been called");
-            }
-        });
+        if(evt.getSource() == model && evt.getPropertyName().equals("Mouse Zoom")){
+            MLC = new MouseListenerClass(this.model, MbP);
+            addMouseListener(MLC);
+
+        } else {
+            SwingUtilities.invokeLater(new Runnable(){
+                public void run(){
+                    MbP.repaint();
+                    System.out.println("The repaint function has been called");
+                }
+            });
+        }
     }
 
 }

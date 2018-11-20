@@ -1,3 +1,5 @@
+package delegate;
+
 import model.MandelbrotCalculator;
 import model.Model;
 
@@ -26,6 +28,8 @@ public class MandelbrotPanel extends JPanel {
                 if(MC_data[i][j] >= Model.MAX_ITERATIONS) {
                     g.drawLine(j, i, j, i);
                     //System.out.println("creating MB with max IT of: " + Model.MAX_ITERATIONS); --> this outputted the correct values but it still didnt re-render
+
+                    //NEED TO FIX rendering error that occurs when you lower max iterations then try to go back up
                 }
             }
         }

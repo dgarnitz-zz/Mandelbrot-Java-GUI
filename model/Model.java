@@ -1,5 +1,7 @@
 package model;
 
+import delegate.Border;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
@@ -30,13 +32,14 @@ public class Model {
                 MAX_ITERATIONS = updatedMaxIterations;
                 System.out.println("Successfully updated max iterations to: " + MAX_ITERATIONS);
                 notifier.firePropertyChange("max iterations", old, MAX_ITERATIONS);
-
-
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
 
+    public void zoomWithMouse() {
+        notifier.firePropertyChange("Mouse Zoom", null, true);
     }
 
     public static int[][] createMB(){
