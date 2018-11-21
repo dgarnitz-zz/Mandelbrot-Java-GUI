@@ -9,6 +9,8 @@ import java.beans.PropertyChangeListener;
 
 
 public class Border extends JFrame implements PropertyChangeListener {
+    public static Boolean enableZoom = false;
+    public static Boolean enablePan = false;
     private Model model;
     public MandelbrotPanel MbP = new MandelbrotPanel();
     private Container cp;
@@ -42,8 +44,7 @@ public class Border extends JFrame implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         System.out.println("The propertyChange function has been called");
         if(evt.getSource() == model && evt.getPropertyName().equals("Mouse Zoom")){
-
-
+                MbP.draw = true;
         } else {
             SwingUtilities.invokeLater(new Runnable(){
                 public void run(){

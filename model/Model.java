@@ -39,7 +39,21 @@ public class Model {
     }
 
     public void zoomWithMouse() {
-        notifier.firePropertyChange("Mouse Zoom", null, true);
+        Boolean old = false;
+        Border.enableZoom = true;
+        notifier.firePropertyChange("Mouse Zoom", old, Border.enableZoom);
+    }
+
+    public void zoom(double upperX, double lowerX, double upperY, double lowerY) {
+        double new_MIN_REAL = ((lowerX * ((Model.MAX_REAL - Model.MIN_REAL))) / 750) + Model.MIN_REAL;
+        double new_MAX_REAL = ((upperX * ((Model.MAX_REAL - Model.MIN_REAL))) / 750) + Model.MIN_REAL;
+        double new_MIN_IMAGINARY = ((lowerY * ((Model.MAX_IMAGINARY - Model.MIN_IMAGINARY))) / 750) + Model.MIN_IMAGINARY;
+        double new_MAX_IMAGINARY = ((upperY * ((Model.MAX_IMAGINARY - Model.MIN_IMAGINARY))) / 750) + Model.MIN_IMAGINARY;
+
+        Model.MIN_REAL = new_MIN_REAL;
+        Model.MAX_REAL = new_MAX_REAL;
+        Model.MIN_IMAGINARY = new_MIN_IMAGINARY;
+        Model.MAX_IMAGINARY = new_MAX_IMAGINARY;
     }
 
     public static int[][] createMB(){
