@@ -19,8 +19,23 @@ public class Toolbar extends JToolBar implements PropertyChangeListener {
         model.addObserver(this);
         setLayout(new GridLayout(2, 4));
 
-        this.add(new JButton ("Undo"));
-        this.add(new JButton ("Redo"));
+        JButton Undo = new JButton ("Undo");
+        Undo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                model.undo();
+            }
+        });
+        this.add(Undo);
+
+        JButton Redo = new JButton ("Redo");
+        Redo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                model.redo();
+            }
+        });
+        this.add(Redo);
 
         JTextField EnterMaxIterations = new JTextField();
         this.add(EnterMaxIterations);
@@ -35,8 +50,17 @@ public class Toolbar extends JToolBar implements PropertyChangeListener {
         });
         this.add(MaxIterations);
 
-        this.add(new JButton ("Display Zoom"));
-        this.add(new JButton ("Enter new zoom"));
+        JButton Reset = new JButton ("Reset");
+        Reset.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                model.reset();
+            }
+        });
+        this.add(Reset);
+
+
+        this.add(new JButton ("Color"));
 
         JButton MouseZoom = new JButton ("Zoom With Mouse");
         MouseZoom.addActionListener(new ActionListener() {
@@ -45,7 +69,6 @@ public class Toolbar extends JToolBar implements PropertyChangeListener {
                 model.zoomWithMouse();
             }
         });
-
         this.add(MouseZoom);
 
         this.add(new JButton ("Pan"));

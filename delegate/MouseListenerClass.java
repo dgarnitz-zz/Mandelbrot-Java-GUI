@@ -78,26 +78,7 @@ public class MouseListenerClass implements MouseListener, MouseMotionListener {
         double lowerY = Math.min(clickY, releasedY);
 
         model.zoom(upperX, lowerX, upperY, lowerY);
-
-        /*
-        double new_MIN_REAL = ((lowerX * ((Model.MAX_REAL - Model.MIN_REAL))) / 750) + Model.MIN_REAL;
-        double new_MAX_REAL = ((upperX * ((Model.MAX_REAL - Model.MIN_REAL))) / 750) + Model.MIN_REAL;
-        double new_MIN_IMAGINARY = ((lowerY * ((Model.MAX_IMAGINARY - Model.MIN_IMAGINARY))) / 750) + Model.MIN_IMAGINARY;
-        double new_MAX_IMAGINARY = ((upperY * ((Model.MAX_IMAGINARY - Model.MIN_IMAGINARY))) / 750) + Model.MIN_IMAGINARY;
-
-        Model.MIN_REAL = new_MIN_REAL;
-        Model.MAX_REAL = new_MAX_REAL;
-        Model.MIN_IMAGINARY = new_MIN_IMAGINARY;
-        Model.MAX_IMAGINARY = new_MAX_IMAGINARY;
-        */
-
         MbP.repaint();
-
-        /* double new_MIN_REAL = ((clickX * ((Model.MAX_REAL - Model.MIN_REAL))) / 750) + Model.MIN_REAL;
-        double new_MAX_REAL = ((releasedX * ((Model.MAX_REAL - Model.MIN_REAL))) / 750) + Model.MIN_REAL;
-        double new_MIN_IMAGINARY = ((releasedY * ((Model.MAX_IMAGINARY - Model.MIN_IMAGINARY))) / 750) + Model.MIN_IMAGINARY;
-        double new_MAX_IMAGINARY = ((clickY * ((Model.MAX_IMAGINARY - Model.MIN_IMAGINARY))) / 750) + Model.MIN_IMAGINARY; */
-
     }
 
 
