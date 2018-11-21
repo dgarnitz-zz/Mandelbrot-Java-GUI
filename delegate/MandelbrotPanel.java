@@ -25,13 +25,12 @@ public class MandelbrotPanel extends JPanel {
         if(draw){       //can draw line or box depending on pan or zoom
             g.setColor(Color.GREEN);
             g.drawRect(x, y, width, height);
-            System.out.println("Checking mouse box");
         }
 
     }
 
 	public void renderMandelbrot(Graphics g){
-        System.out.println("rendering mandelbrot");
+        //System.out.println("rendering mandelbrot");
 
         int x = Model.defaultX;
         int y = Model.defaultY;

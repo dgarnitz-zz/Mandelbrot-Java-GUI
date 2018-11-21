@@ -25,20 +25,18 @@ public class MouseListenerClass implements MouseListener, MouseMotionListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        System.out.println("Mouse pressed " + e.getX() + " " + e.getY());
         clickX = (double)e.getPoint().x;
         clickY = (double)e.getPoint().y;
+        System.out.println("Mouse pressed " + e.getX() + " " + e.getY());
     }
 
     @Override
-    public void mouseDragged(MouseEvent e){
+    public void mouseDragged(MouseEvent e1){
         MbP.draw = true;
-        MbP.x = Math.min((int)clickX, e.getPoint().x);
-        MbP.y = Math.min((int)clickY, e.getPoint().y);
-        MbP.width = Math.abs((int)clickX - e.getPoint().x);
-        MbP.height = Math.abs((int)clickY - e.getPoint().y);
-
-        System.out.println("Checking drag");
+        MbP.x = Math.min((int)clickX, e1.getPoint().x);
+        MbP.y = Math.min((int)clickY, e1.getPoint().y);
+        MbP.width = Math.abs((int)clickX - e1.getPoint().x);
+        MbP.height = Math.abs((int)clickY - e1.getPoint().y);
 
         MbP.repaint();
 
