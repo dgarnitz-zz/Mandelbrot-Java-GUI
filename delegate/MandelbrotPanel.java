@@ -3,16 +3,30 @@ package delegate;
 import model.MandelbrotCalculator;
 import model.Model;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.*;
 
 public class MandelbrotPanel extends JPanel {
 
+    public Boolean draw = false;
+    public int x;
+    public int y;
+    public int width;
+    public int height;
+
+
     @Override
-    public void paint (Graphics g) {
+    public void paintComponent (Graphics g) {
+        super.paintComponent(g);
         renderMandelbrot(g);
+
+        if(draw){       //can draw line or box depending on pan or zoom
+            g.setColor(Color.GREEN);
+            g.drawRect(x, y, width, height);
+            System.out.println("Checking mouse box");
+        }
 
     }
 

@@ -37,6 +37,7 @@ public class Border extends JFrame implements PropertyChangeListener {
         if(evt.getSource() == model && evt.getPropertyName().equals("Mouse Zoom")){
             MLC = new MouseListenerClass(this.model, MbP);
             addMouseListener(MLC);
+            addMouseMotionListener(MLC);
 
         } else {
             SwingUtilities.invokeLater(new Runnable(){
