@@ -84,10 +84,6 @@ public class MandelbrotPanel extends JPanel {
                     g.setColor(darkestBlue);
                     g.drawLine(j, i, j, i);
                 }
-
-                //CREATE COLOR CONFIGURATIONS HERE
-
-                //CREATE COLOR CONFIGURATIONS HERE
             }
         }
 	}

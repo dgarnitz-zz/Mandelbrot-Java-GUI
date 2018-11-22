@@ -63,12 +63,14 @@ public class MouseListenerClass implements MouseListener, MouseMotionListener {
         }
     }
 
+    //could  refactor this out
     public void zoomMandelbrot() {
 
         model.zoom(clickX, releasedX, clickY, releasedY);
         MbP.repaint();
     }
 
+    //could  refactor this out
     public void panMandelbrot() {
         model.pan(clickX, releasedX, clickY, releasedY);
         MbP.repaint();

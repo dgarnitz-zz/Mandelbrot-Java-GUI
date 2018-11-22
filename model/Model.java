@@ -4,6 +4,7 @@ import delegate.Border;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.*;
 import java.text.DecimalFormat;
 import java.util.Stack;
 
@@ -35,7 +36,7 @@ public class Model {
         try {
             int updatedMaxIterations = Integer.parseInt(str);
             if(updatedMaxIterations > 0 && updatedMaxIterations < 50000) {
-                Configurations current = new Configurations(MAX_ITERATIONS, MIN_REAL, MAX_REAL, MIN_IMAGINARY, MAX_IMAGINARY);
+                Configurations current = new Configurations(MAX_ITERATIONS, MIN_REAL, MAX_REAL, MIN_IMAGINARY, MAX_IMAGINARY, Border.color);
                 Undo.push(current);
                 int old = MAX_ITERATIONS;
                 MAX_ITERATIONS = updatedMaxIterations;
@@ -44,6 +45,40 @@ public class Model {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public void save(File save) {
+        try(FileOutputStream fileToSave = new FileOutputStream(save);
+            ObjectOutputStream out = new ObjectOutputStream(fileToSave)) {
+
+            Configurations saved = new Configurations(MAX_ITERATIONS, MIN_REAL, MAX_REAL, MIN_IMAGINARY, MAX_IMAGINARY, Border.color);
+            out.writeObject(saved);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+        notifier.firePropertyChange("save", "old", "new");
+    }
+
+    public void load(File load) {
+        try (FileInputStream file = new FileInputStream(load);
+            ObjectInputStream loadConfigurations = new ObjectInputStream(file)) {
+
+            Configurations loaded = (Configurations)loadConfigurations.readObject();
+            Model.MIN_REAL = loaded.MIN_REAL;
+            Model.MAX_REAL = loaded.MAX_REAL;
+            Model.MIN_IMAGINARY = loaded.MIN_IMAGINARY;
+            Model.MAX_IMAGINARY = loaded.MAX_IMAGINARY;
+            Model.MAX_ITERATIONS = loaded.MAX_ITERATIONS;
+            Border.color = loaded.color;
+
+        } catch (IOException e){
+            e.printStackTrace();
+        } catch (ClassNotFoundException c) {
+            System.err.println(c.getMessage());
+        }
+
+        notifier.firePropertyChange("load", "old", "new");
     }
 
     public void addColor() {
@@ -65,7 +100,7 @@ public class Model {
     }
 
     public void zoom(double clickX, double releasedX, double clickY, double releasedY) {
-        Configurations oldConfig = new Configurations(MAX_ITERATIONS, MIN_REAL, MAX_REAL, MIN_IMAGINARY, MAX_IMAGINARY);
+        Configurations oldConfig = new Configurations(MAX_ITERATIONS, MIN_REAL, MAX_REAL, MIN_IMAGINARY, MAX_IMAGINARY, Border.color);
         Undo.push(oldConfig);
 
         double upperX = Math.max(clickX, releasedX);
@@ -85,7 +120,7 @@ public class Model {
     }
 
     public void pan(double upperX, double lowerX, double upperY, double lowerY) {
-        Configurations oldConfig = new Configurations(MAX_ITERATIONS, MIN_REAL, MAX_REAL, MIN_IMAGINARY, MAX_IMAGINARY);
+        Configurations oldConfig = new Configurations(MAX_ITERATIONS, MIN_REAL, MAX_REAL, MIN_IMAGINARY, MAX_IMAGINARY, Border.color);
         Undo.push(oldConfig);
 
         double new_MIN_REAL = ((upperX - lowerX)/1000 * (Model.MAX_REAL - Model.MIN_REAL)) + Model.MIN_REAL;
@@ -112,7 +147,7 @@ public class Model {
         }
 
         Configurations undo = Undo.pop();
-        Configurations current = new Configurations(MAX_ITERATIONS, MIN_REAL, MAX_REAL, MIN_IMAGINARY, MAX_IMAGINARY);
+        Configurations current = new Configurations(MAX_ITERATIONS, MIN_REAL, MAX_REAL, MIN_IMAGINARY, MAX_IMAGINARY, Border.color);
         Redo.push(current);
 
         MIN_REAL = undo.MIN_REAL;
@@ -147,6 +182,7 @@ public class Model {
         MIN_IMAGINARY = MandelbrotCalculator.INITIAL_MIN_IMAGINARY;
         MAX_IMAGINARY = MandelbrotCalculator.INITIAL_MAX_IMAGINARY;
         MAX_ITERATIONS = MandelbrotCalculator.INITIAL_MAX_ITERATIONS;
+        Border.color = false;
 
         Undo = new Stack<>();
         Redo = new Stack<>();
