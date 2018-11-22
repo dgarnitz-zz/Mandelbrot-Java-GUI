@@ -12,7 +12,7 @@ public class Border extends JFrame implements PropertyChangeListener {
     public static Boolean enableZoom = false;
     public static Boolean enablePan = false;
     private Model model;
-    public MandelbrotPanel MbP = new MandelbrotPanel();
+    public MandelbrotPanel MbP;
     private Container cp;
     public MouseListenerClass MLC;
 
@@ -24,8 +24,10 @@ public class Border extends JFrame implements PropertyChangeListener {
         Toolbar TB = new Toolbar(model);
         TB.setBounds(0, 0, 1000, 50);
         cp.add(TB, BorderLayout.NORTH);
+        MbP = new MandelbrotPanel(model);
         MbP.setBounds(0,51, 1000, 950);
         cp.add(MbP);
+
 
         MLC = new MouseListenerClass(this.model, MbP);
         //addMouseListener(MLC);
@@ -43,7 +45,7 @@ public class Border extends JFrame implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         System.out.println("The propertyChange function has been called");
-        if(evt.getSource() == model && evt.getPropertyName().equals("Mouse Zoom")){
+        if(evt.getSource() == model && (evt.getPropertyName().equals("Mouse Zoom") || evt.getPropertyName().equals("Mouse Pan"))){
                 MbP.draw = true;
         } else {
             SwingUtilities.invokeLater(new Runnable(){

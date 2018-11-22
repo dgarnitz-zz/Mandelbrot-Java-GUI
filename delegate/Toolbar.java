@@ -62,7 +62,7 @@ public class Toolbar extends JToolBar implements PropertyChangeListener {
 
         this.add(new JButton ("Color"));
 
-        JButton MouseZoom = new JButton ("Zoom With Mouse");
+        JButton MouseZoom = new JButton ("Zoom");
         MouseZoom.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -71,7 +71,14 @@ public class Toolbar extends JToolBar implements PropertyChangeListener {
         });
         this.add(MouseZoom);
 
-        this.add(new JButton ("Pan"));
+        JButton MousePan =  new JButton ("Pan");
+        MousePan.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                model.panWithMouse();
+            }
+        });
+        this.add(MousePan);
 
     }
 

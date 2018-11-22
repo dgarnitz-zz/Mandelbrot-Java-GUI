@@ -1,6 +1,6 @@
 package model;
 
-public class Configurations {
+public class Configurations { //extend Serialize then create methods to read and write to files
     public int MAX_ITERATIONS;
     public double MIN_REAL;
     public double MAX_REAL;

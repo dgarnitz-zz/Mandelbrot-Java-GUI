@@ -16,7 +16,6 @@ public class MouseListenerClass implements MouseListener, MouseMotionListener {
     private double releasedX;
     private double releasedY;
 
-    //It may not need this model or this MandelbrotPanel
     public MouseListenerClass(Model model, MandelbrotPanel MbP){
         this.model = model;
         this.MbP = MbP;
@@ -31,7 +30,6 @@ public class MouseListenerClass implements MouseListener, MouseMotionListener {
             MbP.draw = true;
         }
 
-
         System.out.println("Mouse pressed " + e.getX() + " " + e.getY());
     }
 
@@ -39,6 +37,12 @@ public class MouseListenerClass implements MouseListener, MouseMotionListener {
     public void mouseDragged(MouseEvent e){
         MbP.x = Math.min((int)clickX, e.getPoint().x);
         MbP.y = Math.min((int)clickY, e.getPoint().y);
+
+        //I think this might be incorrect
+        MbP.PanX = Math.max((int)clickX, e.getPoint().x);
+        MbP.PanY = Math.max((int)clickY, e.getPoint().y);
+
+
         MbP.width = Math.abs((int)clickX - e.getPoint().x);
         MbP.height = Math.abs((int)clickY - e.getPoint().y);
 
@@ -61,13 +65,11 @@ public class MouseListenerClass implements MouseListener, MouseMotionListener {
         }  else if(Border.enablePan) {
             MbP.draw = false;
             Border.enableZoom = false;
-            //call method to pan
+            System.out.println("initiating Pan");
+            panMandelbrot();
         }
     }
 
-
-
-    //MOVE TO MODEL
     public void zoomMandelbrot() {
 
         //calculate all this in the model
@@ -78,6 +80,11 @@ public class MouseListenerClass implements MouseListener, MouseMotionListener {
         double lowerY = Math.min(clickY, releasedY);
 
         model.zoom(upperX, lowerX, upperY, lowerY);
+        MbP.repaint();
+    }
+
+    public void panMandelbrot() {
+        model.pan(clickX, releasedX, clickY, releasedY);
         MbP.repaint();
     }
 
