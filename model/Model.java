@@ -46,6 +46,12 @@ public class Model {
         }
     }
 
+    public void addColor() {
+        Boolean old = Border.color;
+        Border.color = !old;
+        notifier.firePropertyChange("Color", old, Border.color);
+    }
+
     public void zoomWithMouse() {
         Boolean old = false;
         Border.enableZoom = true;

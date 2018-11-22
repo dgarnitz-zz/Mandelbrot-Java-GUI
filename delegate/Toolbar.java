@@ -59,8 +59,14 @@ public class Toolbar extends JToolBar implements PropertyChangeListener {
         });
         this.add(Reset);
 
-
-        this.add(new JButton ("Color"));
+        JButton Color = new JButton ("Color");
+        Color.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                model.addColor();
+            }
+        });
+        this.add(Color);
 
         JButton MouseZoom = new JButton ("Zoom");
         MouseZoom.addActionListener(new ActionListener() {
