@@ -9,8 +9,8 @@ import java.util.Stack;
 
 public class Model {
 
-    public static int defaultX = 750;
-    public static int defaultY = 750;
+    public static int defaultX = 900;
+    public static int defaultY = 900;
     public static int MAX_ITERATIONS = 50;
     public static double MIN_REAL = -2.0;
     public static double MAX_REAL = 0.7;
@@ -58,14 +58,19 @@ public class Model {
         notifier.firePropertyChange("Mouse Pan", old, Border.enablePan);
     }
 
-    public void zoom(double upperX, double lowerX, double upperY, double lowerY) {
+    public void zoom(double clickX, double releasedX, double clickY, double releasedY) {
         Configurations oldConfig = new Configurations(MAX_ITERATIONS, MIN_REAL, MAX_REAL, MIN_IMAGINARY, MAX_IMAGINARY);
         Undo.push(oldConfig);
 
-        double new_MIN_REAL = ((lowerX * ((Model.MAX_REAL - Model.MIN_REAL))) / 750) + Model.MIN_REAL;
-        double new_MAX_REAL = ((upperX * ((Model.MAX_REAL - Model.MIN_REAL))) / 750) + Model.MIN_REAL;
-        double new_MIN_IMAGINARY = ((lowerY * ((Model.MAX_IMAGINARY - Model.MIN_IMAGINARY))) / 750) + Model.MIN_IMAGINARY;
-        double new_MAX_IMAGINARY = ((upperY * ((Model.MAX_IMAGINARY - Model.MIN_IMAGINARY))) / 750) + Model.MIN_IMAGINARY;
+        double upperX = Math.max(clickX, releasedX);
+        double lowerX = Math.min(clickX, releasedX);
+        double upperY = Math.max(clickY, releasedY);
+        double lowerY = Math.min(clickY, releasedY);
+
+        double new_MIN_REAL = ((lowerX * ((Model.MAX_REAL - Model.MIN_REAL))) / 900) + Model.MIN_REAL;
+        double new_MAX_REAL = ((upperX * ((Model.MAX_REAL - Model.MIN_REAL))) / 900) + Model.MIN_REAL;
+        double new_MIN_IMAGINARY = ((lowerY * ((Model.MAX_IMAGINARY - Model.MIN_IMAGINARY))) / 900) + Model.MIN_IMAGINARY;
+        double new_MAX_IMAGINARY = ((upperY * ((Model.MAX_IMAGINARY - Model.MIN_IMAGINARY))) / 900) + Model.MIN_IMAGINARY;
 
         Model.MIN_REAL = new_MIN_REAL;
         Model.MAX_REAL = new_MAX_REAL;
@@ -88,8 +93,6 @@ public class Model {
         Model.MAX_IMAGINARY = new_MAX_IMAGINARY;
     }
 
-
-
     public String calculateZoom(){
         double zoomPercentage = (MandelbrotCalculator.INITIAL_MAX_REAL - MandelbrotCalculator.INITIAL_MIN_REAL) / (MAX_REAL - MIN_REAL);
         DecimalFormat df = new DecimalFormat("#.##");
@@ -98,10 +101,10 @@ public class Model {
     }
 
     public void undo(){
-        System.out.println("Undo has fired");
         if(Undo.empty()){
             return;
         }
+
         Configurations undo = Undo.pop();
         Configurations current = new Configurations(MAX_ITERATIONS, MIN_REAL, MAX_REAL, MIN_IMAGINARY, MAX_IMAGINARY);
         Redo.push(current);
@@ -116,10 +119,10 @@ public class Model {
     }
 
     public void redo() {
-        System.out.println("Redo has fired");
         if(Redo.empty()){
             return;
         }
+
         Configurations redo = Redo.pop();
         Undo.push(redo);
 
@@ -130,7 +133,6 @@ public class Model {
         MAX_ITERATIONS = redo.MAX_ITERATIONS;
 
         notifier.firePropertyChange("Redo", "Create Old Settings Object", "Create New Settings Object");
-
     }
 
     public void reset(){
@@ -139,11 +141,11 @@ public class Model {
         MIN_IMAGINARY = MandelbrotCalculator.INITIAL_MIN_IMAGINARY;
         MAX_IMAGINARY = MandelbrotCalculator.INITIAL_MAX_IMAGINARY;
         MAX_ITERATIONS = MandelbrotCalculator.INITIAL_MAX_ITERATIONS;
-        //need to clear the two stacks so that resdo/undo reset
+
         Undo = new Stack<>();
         Redo = new Stack<>();
-        notifier.firePropertyChange("Reset", "Create Old Settings Object", "Create New Settings Object");
 
+        notifier.firePropertyChange("Reset", "Create Old Settings Object", "Create New Settings Object");
     }
 
     public static int[][] createMB(){

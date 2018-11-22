@@ -19,7 +19,6 @@ public class MouseListenerClass implements MouseListener, MouseMotionListener {
     public MouseListenerClass(Model model, MandelbrotPanel MbP){
         this.model = model;
         this.MbP = MbP;
-
     }
 
     @Override
@@ -29,22 +28,18 @@ public class MouseListenerClass implements MouseListener, MouseMotionListener {
         if(Border.enableZoom || Border.enablePan){
             MbP.draw = true;
         }
-
-        System.out.println("Mouse pressed " + e.getX() + " " + e.getY());
     }
 
     @Override
     public void mouseDragged(MouseEvent e){
         MbP.x = Math.min((int)clickX, e.getPoint().x);
         MbP.y = Math.min((int)clickY, e.getPoint().y);
+        MbP.width = Math.abs((int)clickX - e.getPoint().x);
+        MbP.height = Math.abs((int)clickY - e.getPoint().y);
 
         //I think this might be incorrect
         MbP.PanX = Math.max((int)clickX, e.getPoint().x);
         MbP.PanY = Math.max((int)clickY, e.getPoint().y);
-
-
-        MbP.width = Math.abs((int)clickX - e.getPoint().x);
-        MbP.height = Math.abs((int)clickY - e.getPoint().y);
 
         if(MbP.draw){
             MbP.repaint();
@@ -54,7 +49,6 @@ public class MouseListenerClass implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseReleased (MouseEvent e) {
-        System.out.println("Mouse released " + e.getX() + " " + e.getY());
         releasedX = (double)e.getPoint().x;
         releasedY = (double)e.getPoint().y;
 
@@ -65,21 +59,13 @@ public class MouseListenerClass implements MouseListener, MouseMotionListener {
         }  else if(Border.enablePan) {
             MbP.draw = false;
             Border.enableZoom = false;
-            System.out.println("initiating Pan");
             panMandelbrot();
         }
     }
 
     public void zoomMandelbrot() {
 
-        //calculate all this in the model
-
-        double upperX = Math.max(clickX, releasedX);
-        double lowerX = Math.min(clickX, releasedX);
-        double upperY = Math.max(clickY, releasedY);
-        double lowerY = Math.min(clickY, releasedY);
-
-        model.zoom(upperX, lowerX, upperY, lowerY);
+        model.zoom(clickX, releasedX, clickY, releasedY);
         MbP.repaint();
     }
 
