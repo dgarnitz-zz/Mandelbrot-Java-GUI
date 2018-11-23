@@ -35,7 +35,7 @@ public class Model {
     public void updateMaxIteration(String str) {
         try {
             int updatedMaxIterations = Integer.parseInt(str);
-            if(updatedMaxIterations > 0 && updatedMaxIterations < 50000) {
+            if(updatedMaxIterations > 0 && updatedMaxIterations < 3000) {
                 Configurations current = new Configurations(MAX_ITERATIONS, MIN_REAL, MAX_REAL, MIN_IMAGINARY, MAX_IMAGINARY, Border.color);
                 Undo.push(current);
                 int old = MAX_ITERATIONS;
@@ -117,6 +117,8 @@ public class Model {
         Model.MAX_REAL = new_MAX_REAL;
         Model.MIN_IMAGINARY = new_MIN_IMAGINARY;
         Model.MAX_IMAGINARY = new_MAX_IMAGINARY;
+
+        notifier.firePropertyChange("Zooming", "old", "new");
     }
 
     public void pan(double upperX, double lowerX, double upperY, double lowerY) {
@@ -132,6 +134,8 @@ public class Model {
         Model.MAX_REAL = new_MAX_REAL;
         Model.MIN_IMAGINARY = new_MIN_IMAGINARY;
         Model.MAX_IMAGINARY = new_MAX_IMAGINARY;
+
+        notifier.firePropertyChange("Panning", "old", "new");
     }
 
     public String calculateZoom(){
