@@ -10,10 +10,14 @@ public class MandelbrotPanel extends JPanel {
     public Boolean draw = false;
     public int x;
     public int y;
-    public int PanX;
-    public int PanY;
     public int width;
     public int height;
+
+    public int PanX1;
+    public int PanY1;
+    public int PanX2;
+    public int PanY2;
+
     private Model model;
 
     public MandelbrotPanel(Model model) {
@@ -37,7 +41,7 @@ public class MandelbrotPanel extends JPanel {
             g.drawRect(x, y, width, height);
         } else if (draw && Border.enablePan){
             g.setColor(Color.RED);
-            g.drawLine(x, y, PanX, PanY);
+            g.drawLine(PanX1, PanY1, PanX2, PanY2);
         }
     }
 
@@ -62,28 +66,28 @@ public class MandelbrotPanel extends JPanel {
                     g.drawLine(j, i, j, i);
                 }
                 else if (MandelbrotData[i][j] < Model.MAX_ITERATIONS*.6 && MandelbrotData[i][j] >= Model.MAX_ITERATIONS*.4 && Border.color) {
-                    Color darkestBlue = new Color(0, 0, 160);
-                    g.setColor(darkestBlue);
+                    Color Second_darkestBlue = new Color(0, 0, 160);
+                    g.setColor(Second_darkestBlue);
                     g.drawLine(j, i, j, i);
                 }
                 else if (MandelbrotData[i][j] < Model.MAX_ITERATIONS*.4 && MandelbrotData[i][j] >= Model.MAX_ITERATIONS*.3 && Border.color) {
-                    Color darkestBlue = new Color(0, 0, 255);
-                    g.setColor(darkestBlue);
+                    Color Third_darkestBlue = new Color(0, 0, 255);
+                    g.setColor(Third_darkestBlue);
                     g.drawLine(j, i, j, i);
                 }
                 else if (MandelbrotData[i][j] < Model.MAX_ITERATIONS*.3 && MandelbrotData[i][j] >= Model.MAX_ITERATIONS*.2 && Border.color) {
-                    Color darkestBlue = new Color(0, 75, 255);
-                    g.setColor(darkestBlue);
+                    Color Fourth_darkestBlue = new Color(0, 75, 255);
+                    g.setColor(Fourth_darkestBlue);
                     g.drawLine(j, i, j, i);
                 }
                 else if (MandelbrotData[i][j] < Model.MAX_ITERATIONS*.2 && MandelbrotData[i][j] >= Model.MAX_ITERATIONS*.1 && Border.color) {
-                    Color darkestBlue = new Color(0, 150, 255);
-                    g.setColor(darkestBlue);
+                    Color Fifth_darkestBlue = new Color(0, 150, 255);
+                    g.setColor(Fifth_darkestBlue);
                     g.drawLine(j, i, j, i);
                 }
                 else if (MandelbrotData[i][j] < Model.MAX_ITERATIONS*.1 && Border.color) {
-                    Color darkestBlue = new Color(0, 225, 255);
-                    g.setColor(darkestBlue);
+                    Color lightestBlue = new Color(0, 225, 255);
+                    g.setColor(lightestBlue);
                     g.drawLine(j, i, j, i);
                 }
             }

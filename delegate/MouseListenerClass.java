@@ -39,11 +39,10 @@ public class MouseListenerClass implements MouseListener, MouseMotionListener {
         MbP.width = Math.abs((int)clickX - e.getPoint().x);
         MbP.height = Math.abs((int)clickY - e.getPoint().y);
 
-        //I think this might be incorrect
-        //Don't need this, can just use clickX/Y and releaseX/Y, just create variables on MbP
-        MbP.PanX = Math.max((int)clickX, e.getPoint().x);
-        MbP.PanY = Math.max((int)clickY, e.getPoint().y);
-
+        MbP.PanX1 = (int)clickX;
+        MbP.PanY1 = (int)clickY;
+        MbP.PanX2 = e.getPoint().x;
+        MbP.PanY2 = e.getPoint().y;
 
         if(MbP.draw){
             MbP.repaint();
@@ -62,7 +61,7 @@ public class MouseListenerClass implements MouseListener, MouseMotionListener {
             model.zoom(clickX, releasedX, clickY, releasedY);
         }  else if(Border.enablePan) {
             MbP.draw = false;
-            Border.enableZoom = false;
+            Border.enablePan = false;
             model.pan(clickX, releasedX, clickY, releasedY);
         }
     }

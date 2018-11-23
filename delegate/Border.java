@@ -82,15 +82,11 @@ public class Border extends JFrame implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if(evt.getSource() == model && (evt.getPropertyName().equals("Mouse Zoom") || evt.getPropertyName().equals("Mouse Pan"))){
-                MbP.draw = true;
-        } else {
-            SwingUtilities.invokeLater(new Runnable(){
-                public void run(){
-                    MbP.repaint();
-                }
-            });
-        }
+        SwingUtilities.invokeLater(new Runnable(){
+            public void run(){
+                MbP.repaint();
+            }
+        });
     }
 
 }
