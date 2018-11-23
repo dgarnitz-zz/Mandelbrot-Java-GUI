@@ -72,6 +72,9 @@ public class Model {
             Model.MAX_ITERATIONS = loaded.MAX_ITERATIONS;
             Border.color = loaded.color;
 
+            Undo = new Stack<>();
+            Redo = new Stack<>();
+
         } catch (IOException e){
             e.printStackTrace();
         } catch (ClassNotFoundException c) {
@@ -88,14 +91,16 @@ public class Model {
     }
 
     public void zoomWithMouse() {
-        Boolean old = false;
-        Border.enableZoom = true;
+        Boolean old = Border.enableZoom;
+        Border.enableZoom = !old;
+        Border.enablePan = false;
         notifier.firePropertyChange("Mouse Zoom", old, Border.enableZoom);
     }
 
     public void panWithMouse(){
-        Boolean old = false;
-        Border.enablePan = true;
+        Boolean old = Border.enablePan;
+        Border.enablePan = !old;
+        Border.enableZoom = false;
         notifier.firePropertyChange("Mouse Pan", old, Border.enablePan);
     }
 
