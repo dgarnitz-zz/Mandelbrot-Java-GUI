@@ -8,6 +8,14 @@ import java.io.*;
 import java.text.DecimalFormat;
 import java.util.Stack;
 
+/**
+ * The Model class is principal class of the model package. It contains all the methods used perform the calculations
+ * and actions underlying the GUI's behavior. It has attributes that contain the current values of the Mandelbrot's
+ * parameters. It also has two stacks as attributes, both of which hold Configurations objects used for the undo and
+ * redo functionality.
+ * It also contains a PropertyChangeSupport object called "notifier" that it uses to fire events to the Border class
+ * in the delegate package.
+ */
 public class Model {
 
     public static int defaultX = 1000;
@@ -28,10 +36,20 @@ public class Model {
         Redo = new Stack<>();
     }
 
+    /**
+     * This method takes a PropertyChangeListener and adds it to the notifier PropertyChangeSupport object as
+     * one of its listeners.
+     * @param listener
+     */
     public void addObserver(PropertyChangeListener listener) {
         notifier.addPropertyChangeListener(listener);
     }
 
+    /**
+     * This method changes the MAX_ITERATION value to that entered by the user, if its valid, then fires an event
+     * to the Border class in the delegate to make it render.
+     * @param str sting containing the new MAX_ITERATION value
+     */
     public void updateMaxIteration(String str) {
         try {
             int updatedMaxIterations = Integer.parseInt(str);
@@ -47,6 +65,11 @@ public class Model {
         }
     }
 
+    /**
+     * Uses try-with-resources to create an ObjectOutputStream and save a Configurations object with the current
+     * model's attributes in a given file.
+     * @param save File object representing the file that the saved object will be written to
+     */
     public void save(File save) {
         try(FileOutputStream fileToSave = new FileOutputStream(save);
             ObjectOutputStream out = new ObjectOutputStream(fileToSave)) {
@@ -60,6 +83,12 @@ public class Model {
         notifier.firePropertyChange("save", "old", "new");
     }
 
+    /**
+     * Uses try-with-resources to create an ObjectInputStream and load a Configurations object by setting the model's
+     * attributes containing the Mandelbrot parameters equal to those attributes in the Configurations object containing
+     * saved parameter values stored in a given file.
+     * @param load File object representing the file that the saved object will be read from
+     */
     public void load(File load) {
         try (FileInputStream file = new FileInputStream(load);
             ObjectInputStream loadConfigurations = new ObjectInputStream(file)) {
@@ -84,12 +113,20 @@ public class Model {
         notifier.firePropertyChange("load", "old", "new");
     }
 
+    /**
+     * This method toggles the color, either adding it or removing it by changing the value of the Border's color
+     * attribute, then fires an event causing the delegate to render with the new values
+     */
     public void addColor() {
         Boolean old = Border.color;
         Border.color = !old;
         notifier.firePropertyChange("Color", old, Border.color);
     }
 
+    /**
+     * This method toggles the zoom, either enabling or disabling it by changing the value of the Border's enableZoom
+     * attribute, then fires an event causing the delegate to render with the new values
+     */
     public void zoomWithMouse() {
         Boolean old = Border.enableZoom;
         Border.enableZoom = !old;
@@ -97,6 +134,10 @@ public class Model {
         notifier.firePropertyChange("Mouse Zoom", old, Border.enableZoom);
     }
 
+    /**
+     * This method toggles the pan, either enabling it or disabling it by changing the value of the Border's enablePan
+     * attribute, then fires an event causing the delegate to render with the new values
+     */
     public void panWithMouse(){
         Boolean old = Border.enablePan;
         Border.enablePan = !old;
@@ -104,6 +145,15 @@ public class Model {
         notifier.firePropertyChange("Mouse Pan", old, Border.enablePan);
     }
 
+    /**
+     * This method recalculates the parameters of the Mandelbrot object by taking the two (X, Y) coordinates of
+     * where the mouse was clicked and released, and determining the minimum and maximum X & Y, then running them
+     * through a recalculation formula. Lastly, it fires an event causing the delegate to render with the new values
+     * @param clickX the X coordinate of where the mouse was clicked
+     * @param releasedX the Y coordinate of where the mouse was click
+     * @param clickY the X coordinate of where the mouse was released
+     * @param releasedY the Y coordinate of where the mouse was released
+     */
     public void zoom(double clickX, double releasedX, double clickY, double releasedY) {
         Configurations oldConfig = new Configurations(MAX_ITERATIONS, MIN_REAL, MAX_REAL, MIN_IMAGINARY, MAX_IMAGINARY, Border.color);
         Undo.push(oldConfig);
@@ -121,6 +171,15 @@ public class Model {
         notifier.firePropertyChange("Zooming", "old", "new");
     }
 
+    /**
+     * This method recalculates the parameters of the Mandelbrot object by taking the two (X, Y) coordinates of
+     * where the mouse was clicked and released, then running them through a recalculation formula.
+     * Lastly, it fires an event causing the delegate to render with the new values
+     * @param upperX the X coordinate of where the mouse was clicked
+     * @param lowerX the Y coordinate of where the mouse was click
+     * @param upperY the X coordinate of where the mouse was released
+     * @param lowerY the Y coordinate of where the mouse was released
+     */
     public void pan(double upperX, double lowerX, double upperY, double lowerY) {
         Configurations oldConfig = new Configurations(MAX_ITERATIONS, MIN_REAL, MAX_REAL, MIN_IMAGINARY, MAX_IMAGINARY, Border.color);
         Undo.push(oldConfig);
@@ -133,6 +192,10 @@ public class Model {
         notifier.firePropertyChange("Panning", "old", "new");
     }
 
+    /**
+     * A method to calculate the zoom of the mandelbrot
+     * @return a string with the zoom
+     */
     public String calculateZoom(){
         double zoomPercentage = (MandelbrotCalculator.INITIAL_MAX_REAL - MandelbrotCalculator.INITIAL_MIN_REAL) / (MAX_REAL - MIN_REAL);
         DecimalFormat df = new DecimalFormat("#.##");
@@ -140,12 +203,23 @@ public class Model {
         return zoom;
     }
 
+    /**
+     * This method toggles the zoom display, either enabling or disabling it by changing the value of the Border's
+     * displayZoom attribute, then fires an event causing the delegate to render with the new values
+     */
     public void displayZoom(){
         Boolean old = Border.displayZoom;
         Border.displayZoom = !old;
         notifier.firePropertyChange("Display Zoom", old, Border.displayZoom);
     }
 
+    /**
+     * Method to undo user actions. It pops a Configurations object off the Undo stack. Then, before undo-ing the last
+     * action, it saves the model's attributes in a new Configurations object and pushes it to the Redo stack, in
+     * case the user decides they want to redo the last action. Then it takes the object from the Undo stack, sets
+     * the model's attribute values equal to those of the object's attribute value, and fires an event that causes
+     * the GUI to render with the updated values.
+     */
     public void undo(){
         if(Undo.empty()){
             return;
@@ -165,6 +239,9 @@ public class Model {
         notifier.firePropertyChange("Undo", "Create Old Settings Object", "Create New Settings Object");
     }
 
+    /**
+     * Works the same as the undo() method but with the Redo stack.
+     */
     public void redo() {
         if(Redo.empty()){
             return;
@@ -184,6 +261,12 @@ public class Model {
         notifier.firePropertyChange("Redo", "Create Old Settings Object", "Create New Settings Object");
     }
 
+    /**
+     * This method resets the Mandelbrot GUI by changing the Mandelbrot parameters stored as model attributes back to their
+     * initial values.
+     * It then resets the Undo and Redo stacks.
+     * Lastly, it fires an event to force the re-rendering.
+     */
     public void reset(){
         MIN_REAL = MandelbrotCalculator.INITIAL_MIN_REAL;
         MAX_REAL = MandelbrotCalculator.INITIAL_MAX_REAL;
@@ -198,6 +281,11 @@ public class Model {
         notifier.firePropertyChange("Reset", "Create Old Settings Object", "Create New Settings Object");
     }
 
+    /**
+     * This method calls the MandelbrotCalculator's calcMandelbrotSet using the model's attributes as parameters. This
+     * generates the data that will be printed to create the Mandelbrot image.
+     * @return a 2D array containing the Mandelbrot data
+     */
     public static int[][] createMB(){
 
         MandelbrotCalculator MC = new MandelbrotCalculator();

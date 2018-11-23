@@ -5,6 +5,7 @@ import java.io.Serializable;
 /**
  * Serializable class designed to store the values of the model's attributes, along with that of the Border's
  * color attribute. This object is used for the undo, redo, save, and load functionality of the program.
+ * It is part of the model package, as its only responsibility is storing data.
  */
 public class Configurations implements Serializable {
     public int MAX_ITERATIONS;

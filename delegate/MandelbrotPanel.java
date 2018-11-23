@@ -5,6 +5,11 @@ import model.Model;
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ * The MandelbrotPanel class displays the Mandelbrot. It stores the coorindates of the mouse, along with a Boolean
+ * controlling whether drawing is enable, as attributes.
+ * It contains methods for displaying the Mandelbrot itself as well as the boxes and line shown when zooming or panning.
+ */
 public class MandelbrotPanel extends JPanel {
 
     public Boolean draw = false;
@@ -25,6 +30,12 @@ public class MandelbrotPanel extends JPanel {
     }
 
 
+    /**
+     * This method first calls the parent's paintComponent method, then it calls the renderMandelbrot. If zooming is
+     * enable, it will draw a green rectangle. If panning is enable, it will draw a red line. If zoom display is enabled
+     * it will display the zoom percentage.
+     * @param g Graphics object
+     */
     @Override
     public void paintComponent (Graphics g) {
         super.paintComponent(g);
@@ -45,6 +56,14 @@ public class MandelbrotPanel extends JPanel {
         }
     }
 
+    /**
+     * This method is responsible for printing the Mandelbrot to the screen. It first generates the data used to print
+     * the Mandelbrot with the createMB method. It then uses nested for-loops to cycle through the 2D array containing
+     * the data and uses the drawLine method to print the points onto themselves, outputting a pixel to the screen.
+     * When coloring is enabling, it breaks the data points into tranches based on percentages of the MAX_ITERATION
+     * value.
+     * @param g Graphics object
+     */
 	public void renderMandelbrot(Graphics g){
         int x = Model.defaultX;
         int y = Model.defaultY;
