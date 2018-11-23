@@ -108,15 +108,10 @@ public class Model {
         double upperY = Math.max(clickY, releasedY);
         double lowerY = Math.min(clickY, releasedY);
 
-        double new_MIN_REAL = ((lowerX * ((Model.MAX_REAL - Model.MIN_REAL))) / 1000) + Model.MIN_REAL;
-        double new_MAX_REAL = ((upperX * ((Model.MAX_REAL - Model.MIN_REAL))) / 1000) + Model.MIN_REAL;
-        double new_MIN_IMAGINARY = ((lowerY * ((Model.MAX_IMAGINARY - Model.MIN_IMAGINARY))) / 950) + Model.MIN_IMAGINARY;
-        double new_MAX_IMAGINARY = ((upperY * ((Model.MAX_IMAGINARY - Model.MIN_IMAGINARY))) / 950) + Model.MIN_IMAGINARY;
-
-        Model.MIN_REAL = new_MIN_REAL;
-        Model.MAX_REAL = new_MAX_REAL;
-        Model.MIN_IMAGINARY = new_MIN_IMAGINARY;
-        Model.MAX_IMAGINARY = new_MAX_IMAGINARY;
+        Model.MIN_REAL = ((lowerX * ((Model.MAX_REAL - Model.MIN_REAL))) / 1000) + Model.MIN_REAL;;
+        Model.MAX_REAL = ((upperX * ((Model.MAX_REAL - Model.MIN_REAL))) / 1000) + Model.MIN_REAL;
+        Model.MIN_IMAGINARY = ((lowerY * ((Model.MAX_IMAGINARY - Model.MIN_IMAGINARY))) / 950) + Model.MIN_IMAGINARY;
+        Model.MAX_IMAGINARY = ((upperY * ((Model.MAX_IMAGINARY - Model.MIN_IMAGINARY))) / 950) + Model.MIN_IMAGINARY;
 
         notifier.firePropertyChange("Zooming", "old", "new");
     }
@@ -125,15 +120,10 @@ public class Model {
         Configurations oldConfig = new Configurations(MAX_ITERATIONS, MIN_REAL, MAX_REAL, MIN_IMAGINARY, MAX_IMAGINARY, Border.color);
         Undo.push(oldConfig);
 
-        double new_MIN_REAL = ((upperX - lowerX)/1000 * (Model.MAX_REAL - Model.MIN_REAL)) + Model.MIN_REAL;
-        double new_MAX_REAL = ((upperX - lowerX)/1000 * (Model.MAX_REAL - Model.MIN_REAL)) + Model.MAX_REAL;
-        double new_MIN_IMAGINARY = ((upperY - lowerY)/950 * (Model.MAX_IMAGINARY - Model.MIN_IMAGINARY)) + Model.MIN_IMAGINARY;
-        double new_MAX_IMAGINARY = ((upperY - lowerY)/950 * (Model.MAX_IMAGINARY - Model.MIN_IMAGINARY)) + Model.MAX_IMAGINARY;
-
-        Model.MIN_REAL = new_MIN_REAL;
-        Model.MAX_REAL = new_MAX_REAL;
-        Model.MIN_IMAGINARY = new_MIN_IMAGINARY;
-        Model.MAX_IMAGINARY = new_MAX_IMAGINARY;
+        Model.MIN_REAL = ((upperX - lowerX)/1000 * (Model.MAX_REAL - Model.MIN_REAL)) + Model.MIN_REAL;
+        Model.MAX_REAL = ((upperX - lowerX)/1000 * (Model.MAX_REAL - Model.MIN_REAL)) + Model.MAX_REAL;
+        Model.MIN_IMAGINARY = ((upperY - lowerY)/950 * (Model.MAX_IMAGINARY - Model.MIN_IMAGINARY)) + Model.MIN_IMAGINARY;
+        Model.MAX_IMAGINARY = ((upperY - lowerY)/950 * (Model.MAX_IMAGINARY - Model.MIN_IMAGINARY)) + Model.MAX_IMAGINARY;
 
         notifier.firePropertyChange("Panning", "old", "new");
     }
@@ -165,6 +155,7 @@ public class Model {
         MIN_IMAGINARY = undo.MIN_IMAGINARY;
         MAX_IMAGINARY = undo.MAX_IMAGINARY;
         MAX_ITERATIONS = undo.MAX_ITERATIONS;
+        Border.color = undo.color;
 
         notifier.firePropertyChange("Undo", "Create Old Settings Object", "Create New Settings Object");
     }
@@ -183,6 +174,7 @@ public class Model {
         MIN_IMAGINARY = redo.MIN_IMAGINARY;
         MAX_IMAGINARY = redo.MAX_IMAGINARY;
         MAX_ITERATIONS = redo.MAX_ITERATIONS;
+        Border.color = redo.color;
 
         notifier.firePropertyChange("Redo", "Create Old Settings Object", "Create New Settings Object");
     }
