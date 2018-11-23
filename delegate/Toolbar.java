@@ -17,7 +17,7 @@ public class Toolbar extends JToolBar implements PropertyChangeListener {
 
         this.model = model;
         model.addObserver(this);
-        setLayout(new GridLayout(2, 4));
+        setLayout(new GridLayout(2, 5));
 
         JButton Undo = new JButton ("Undo");
         Undo.addActionListener(new ActionListener() {
@@ -49,6 +49,15 @@ public class Toolbar extends JToolBar implements PropertyChangeListener {
             }
         });
         this.add(MaxIterations);
+
+        JButton DisplayZoom = new JButton("Display Zoom");
+        DisplayZoom.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                model.displayZoom();
+            }
+        });
+        this.add(DisplayZoom);
 
         JButton Reset = new JButton ("Reset");
         Reset.addActionListener(new ActionListener() {

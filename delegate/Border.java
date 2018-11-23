@@ -15,6 +15,7 @@ public class Border extends JFrame implements PropertyChangeListener {
     public static Boolean enableZoom = false;
     public static Boolean enablePan = false;
     public static Boolean color = false;
+    public static Boolean displayZoom = false;
     private Model model;
     public MandelbrotPanel MbP;
     private Container cp;

@@ -10,8 +10,8 @@ import java.util.Stack;
 
 public class Model {
 
-    public static int defaultX = 900;
-    public static int defaultY = 900;
+    public static int defaultX = 1000;
+    public static int defaultY = 950;
     public static int MAX_ITERATIONS = 50;
     public static double MIN_REAL = -2.0;
     public static double MAX_REAL = 0.7;
@@ -108,10 +108,10 @@ public class Model {
         double upperY = Math.max(clickY, releasedY);
         double lowerY = Math.min(clickY, releasedY);
 
-        double new_MIN_REAL = ((lowerX * ((Model.MAX_REAL - Model.MIN_REAL))) / 900) + Model.MIN_REAL;
-        double new_MAX_REAL = ((upperX * ((Model.MAX_REAL - Model.MIN_REAL))) / 900) + Model.MIN_REAL;
-        double new_MIN_IMAGINARY = ((lowerY * ((Model.MAX_IMAGINARY - Model.MIN_IMAGINARY))) / 900) + Model.MIN_IMAGINARY;
-        double new_MAX_IMAGINARY = ((upperY * ((Model.MAX_IMAGINARY - Model.MIN_IMAGINARY))) / 900) + Model.MIN_IMAGINARY;
+        double new_MIN_REAL = ((lowerX * ((Model.MAX_REAL - Model.MIN_REAL))) / 1000) + Model.MIN_REAL;
+        double new_MAX_REAL = ((upperX * ((Model.MAX_REAL - Model.MIN_REAL))) / 1000) + Model.MIN_REAL;
+        double new_MIN_IMAGINARY = ((lowerY * ((Model.MAX_IMAGINARY - Model.MIN_IMAGINARY))) / 950) + Model.MIN_IMAGINARY;
+        double new_MAX_IMAGINARY = ((upperY * ((Model.MAX_IMAGINARY - Model.MIN_IMAGINARY))) / 950) + Model.MIN_IMAGINARY;
 
         Model.MIN_REAL = new_MIN_REAL;
         Model.MAX_REAL = new_MAX_REAL;
@@ -141,6 +141,12 @@ public class Model {
         return zoom;
     }
 
+    public void displayZoom(){
+        Boolean old = Border.displayZoom;
+        Border.displayZoom = !old;
+        notifier.firePropertyChange("Display Zoom", old, Border.displayZoom);
+    }
+
     public void undo(){
         if(Undo.empty()){
             return;
@@ -165,7 +171,8 @@ public class Model {
         }
 
         Configurations redo = Redo.pop();
-        Undo.push(redo);
+        Configurations current = new Configurations(MAX_ITERATIONS, MIN_REAL, MAX_REAL, MIN_IMAGINARY, MAX_IMAGINARY, Border.color);
+        Undo.push(current);
 
         MIN_REAL = redo.MIN_REAL;
         MAX_REAL = redo.MAX_REAL;
